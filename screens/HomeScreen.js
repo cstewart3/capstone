@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import {
   Image,
   Platform,
@@ -30,9 +30,15 @@ export default class HomeScreen extends React.Component {
               }
               style={styles.welcomeImage}
             />
-			
+
 			<Text style={styles.getStartedText}>
-				You're gonna love this app, trust me. 
+
+				You're gonna love this app, trust me, its gonna be awesome! Hello everyone !! :)
+
+				You're gonna love this app, trust me.  No thanks
+
+				You're gonna love this app, trust me, its gonna be awesome! 
+
 			</Text>
           </View>
 
@@ -46,7 +52,10 @@ export default class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>
+
               Change this text and your app will automatically reload! Its amazing!
+              OK!
+
             </Text>
           </View>
 
