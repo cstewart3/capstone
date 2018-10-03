@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
             />
 			
 			<Text style={styles.getStartedText}>
-				You're gonna love this app, trust me. 
+				You're gonna love this app, trust me, its gonna be awesome! 
 			</Text>
           </View>
 
