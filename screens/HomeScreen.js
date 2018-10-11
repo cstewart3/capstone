@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import {
   Image,
   Platform,
@@ -25,21 +25,11 @@ export default class HomeScreen extends React.Component {
             <Image
               source={
                 __DEV__
-                  ? require('../assets/images/truck.jpg')
+                  ? require('../assets/images/robot-dev.png')
                   : require('../assets/images/robot-prod.png')
               }
               style={styles.welcomeImage}
             />
-
-			<Text style={styles.getStartedText}>
-
-				You're gonna love this app, trust me, its gonna be awesome! Hello everyone !! :)
-
-				You're gonna love this app, trust me.  No thanks
-
-				You're gonna love this app, trust me, its gonna be awesome! 
-
-			</Text>
           </View>
 
           <View style={styles.getStartedContainer}>
@@ -52,7 +42,7 @@ export default class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>
-              OK!
+              Change this text and your app will automatically reload.
             </Text>
           </View>
 
@@ -129,8 +119,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   welcomeImage: {
-    width: 200,
-    height: 100,
+    width: 100,
+    height: 80,
     resizeMode: 'contain',
     marginTop: 3,
     marginLeft: -10,
