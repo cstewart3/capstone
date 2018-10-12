@@ -14,3 +14,4 @@ var jsonData = JSON.parse(content);
 //      type of site
 console.log(jsonData[0].siteName);
 console.log(jsonData[4]._id);
+
