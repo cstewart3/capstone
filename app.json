@@ -1,5 +1,11 @@
 {
+
+
   "expo": {
+    "splash": {
+    "image": "./assets/images/truck.jpg",
+    "backgroundColor": "#FEF9B0"
+  },
     "name": "MapTutorial",
     "description": "A very interesting project.",
     "slug": "MapTutorial",
