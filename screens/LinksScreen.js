@@ -11,7 +11,7 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      pickerSelection: 'All Stops',
+      pickerSelection: '',
       pickerDisplayed: false
     }
   }
@@ -53,6 +53,8 @@ componentDidMount() {
 
   render() {
 
+    
+
     const pickerValues = [
       {
         title: 'All Stops',
@@ -84,8 +86,9 @@ componentDidMount() {
       <React.Fragment>
 
         <View style={{height: 0}} />
+          
           <Button onPress={() => this.togglePicker()} title={ "Map Filters" }/>
-           <Text style={{textAlignVertical: "center",textAlign: "center"}}>Currently Showing { this.state.pickerSelection }</Text>
+           <Text style={{textAlignVertical: "center",textAlign: "center"}}> { this.state.pickerSelection }</Text>
           <Modal visible={this.state.pickerDisplayed} animationType={"slide"} transparent={true}>
             <View style={{ margin: 20, padding: 20,
               backgroundColor: '#efefef',
@@ -119,20 +122,113 @@ componentDidMount() {
         longitudeDelta: 0.0421,
 
       }}>
-
-      <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} pinColor = {"#f442f1"} />
-      <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} />
-      <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#ede02d"}/>
-      <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#1fddf2"}/>
-      <Expo.MapView.Marker coordinate = {{latitude: 39.831058, longitude: -77.230580}} title = {"David Wills House"} description = {"Lincoln made final adjustments to the Gettysburg Address here"} pinColor = {"#1fddf2"}/>
+      {this._maybeRenderDevelopmentModeWarning()}
+      {/* User's Location always shown */}
+      
+      
+          <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} >
+          <View style = {styles.radius}> 
+        <View style = {styles.marker}> 
+        </View>
+      </View>
+      </Expo.MapView.Marker>
+      
+      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} /> */}
+      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#ede02d"}/> */}
+      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#1fddf2"}/> */}
+      
 
       </Expo.MapView>
     </React.Fragment>
     );
   }
+
+  /*
+  Filtering tour types
+  Return specific tour type
+  */
+  _maybeRenderDevelopmentModeWarning() {
+    if (this.state.pickerSelection == "Lincoln's Visit") {
+      return (
+      <React.Fragment>
+      
+      <Expo.MapView.Marker coordinate = {{latitude: 39.831058, longitude: -77.230580}} title = {"David Wills House"} description = {"Lincoln made final adjustments to the Gettysburg Address here"} pinColor = {"#ed7d31"}/>
+      
+      </React.Fragment>
+      );
+    }
+    
+    else if (this.state.pickerSelection == "Citizens and the Battle"){
+      return (
+      <React.Fragment>
+      
+      <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} pinColor = {"#00ffff"} />
+      
+      </React.Fragment>
+      );
+    }
+
+    else if (this.state.pickerSelection == "Gettysburg's Black History") {
+      return (
+      <React.Fragment>
+      
+      <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#7200ff"}/>
+      
+      </React.Fragment>
+      );
+    }
+
+    else if (this.state.pickerSelection == "Early Gettysburg") {
+      return (
+      <React.Fragment>
+    
+      <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#517e33"}/>
+     
+      </React.Fragment>
+      );
+    }
+    else {
+      return (
+        <React.Fragment>
+        
+        <Expo.MapView.Marker coordinate = {{latitude: 39.831058, longitude: -77.230580}} title = {"David Wills House"} description = {"Lincoln made final adjustments to the Gettysburg Address here"} pinColor = {"#ed7d31"}/>
+        <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#7200ff"}/>
+        <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} pinColor = {"#00ffff"} />
+        <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#517e33"}/>
+        
+        </React.Fragment>
+      
+      );
+    }
+
+
+  }
+
 }
 
 const styles = StyleSheet.create({
+  radius: {
+    height: 50,
+    width: 50,
+    borderRadius: 50 / 2,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(0, 122, 255, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 112, 255, 0.3)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  marker: {
+    height: 20,
+    width: 20,
+    borderWidth: 3,
+    borderColor: '#bd0247',
+    borderRadius: 20 / 2,
+    overflow: 'hidden',
+    backgroundColor: '#e3256b'
+  },
+
   container: {
     flex: 1,
     alignItems: 'center',
