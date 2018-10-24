@@ -37,13 +37,13 @@ export default class HomeScreen extends React.Component {
             </View> */}
 
             <Text style={styles.getStartedText}>
-              Title
+              GettysburgAR
             </Text>
 
           <TouchableHighlight
             style={styles.getStartedButton}
             onPress={() => this.props.navigation.navigate('Map View')}>
-            <Text style={styles.buttonText}> Get Started </Text>
+            <Text style={styles.buttonText}> Get Started! </Text>
           </TouchableHighlight>
           </View>
 
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   getStartedButton: {
     borderWidth: 3,
-    borderColor: '#5b9bd5',
+    borderColor: '#00ffff',
     alignItems: 'center',
     padding: 10,
     width: 175
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   getStartedText: {
     fontSize: 75,
     fontWeight: 'bold',
-    color: '#70ad47',
+    color: '#e3256b',
     lineHeight: 400,
     textAlign: 'center',
   },
