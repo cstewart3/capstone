@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 4,
   },
   getStartedText: {
-    fontSize: 75,
+    fontSize: 30,
     fontWeight: 'bold',
     color: '#e3256b',
     lineHeight: 400,
