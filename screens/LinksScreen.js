@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight } fro
 import Expo from 'expo';
 
 
-
 export default class App extends React.Component {
   static navigationOptions = {
     title: 'Map View',
