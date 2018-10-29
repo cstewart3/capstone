@@ -12,8 +12,13 @@ export default class App extends React.Component {
 
     this.state = {
       pickerSelection: '',
-      pickerDisplayed: false
+      pickerDisplayed: false,
+      modalVisible: true,
     }
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   setPickerValue(newValue) {
@@ -84,6 +89,32 @@ componentDidMount() {
     }
     return (
       <React.Fragment>
+
+
+        <View >
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+          }}>
+          <View style ={{alignItems: 'center'}}>
+            
+              <Text style={styles.getStartedText}>GettysburgAR</Text>
+
+              <TouchableHighlight
+                style = {styles.getStartedButton}
+                onPress={() => {
+                  this.setModalVisible(!this.state.modalVisible);
+                }}>
+                <Text style={styles.buttonText}>Get Started!</Text>
+              </TouchableHighlight>
+           
+          </View>
+        </Modal>
+
+      </View>
 
         <View style={{height: 0}} />
           
@@ -207,6 +238,28 @@ componentDidMount() {
 }
 
 const styles = StyleSheet.create({
+  getStartedText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    color: '#e3256b',
+    lineHeight: 400,
+   
+  },
+  buttonText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#7f7f7f',
+    justifyContent: 'center'
+
+  },
+  getStartedButton: {
+    borderWidth: 3,
+    borderColor: '#00ffff',
+    alignItems: 'center',
+
+    padding: 10,
+    width: 175
+  },
   radius: {
     height: 50,
     width: 50,
