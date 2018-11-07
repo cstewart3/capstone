@@ -2,14 +2,19 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight } from 'react-native';
 import Expo from 'expo';
 
-
+const data = require("..\\assets\\data_points\\fake.json");
+ 
+	var lincolnsVisit = [];
+	var citandBattle = []; 
+	var burgBlackHistory = []; 
+	var earlyBurg = []; 
+	var allStops = [];
 export default class App extends React.Component {
   static navigationOptions = {
     title: 'Map View',
   };
   constructor(props) {
-    super(props);
-
+    super(props); 
     this.state = {
       pickerSelection: '',
       pickerDisplayed: false,
@@ -58,8 +63,9 @@ componentDidMount() {
 
   render() {
 
-    
-
+    this.renderStopArrays();
+	
+	
     const pickerValues = [
       {
         title: 'All Stops',
@@ -173,18 +179,43 @@ componentDidMount() {
     </React.Fragment>
     );
   }
+  
+  renderStopArrays(){
+	  for(let i = 0; i <= data.length; i++){
+		 if(data[i].category == "Lincoln's Visit"){
+			lincolnsVisit.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+		 }
+		 
+		 else if(data[i].category == "Citizens and the Battle"){
+			citandBattle.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+
+		 }
+		 else if(data[i].category == "Gettysburg's Black History"){
+			burgBlackHistory.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+
+		 }
+		 else if(data[i].category == "Early Gettysburg"){
+			earlyBurg.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+
+		 }
+	 }
+	  
+  }
 
   /*
   Filtering tour types
   Return specific tour type
   */
   _maybeRenderDevelopmentModeWarning() {
-    if (this.state.pickerSelection == "Lincoln's Visit") {
+	  
+	if (this.state.pickerSelection == "Lincoln's Visit") {
       return (
       <React.Fragment>
-      
-      <Expo.MapView.Marker coordinate = {{latitude: 39.831058, longitude: -77.230580}} title = {"David Wills House"} description = {"Lincoln made final adjustments to the Gettysburg Address here"} pinColor = {"#ed7d31"}/>
-      
+		{lincolnsVisit}
       </React.Fragment>
       );
     }
@@ -192,9 +223,7 @@ componentDidMount() {
     else if (this.state.pickerSelection == "Citizens and the Battle"){
       return (
       <React.Fragment>
-      
-      <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} pinColor = {"#00ffff"} />
-      
+      {citandBattle}
       </React.Fragment>
       );
     }
@@ -202,9 +231,7 @@ componentDidMount() {
     else if (this.state.pickerSelection == "Gettysburg's Black History") {
       return (
       <React.Fragment>
-      
-      <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#7200ff"}/>
-      
+      {burgBlackHistory}
       </React.Fragment>
       );
     }
@@ -212,9 +239,7 @@ componentDidMount() {
     else if (this.state.pickerSelection == "Early Gettysburg") {
       return (
       <React.Fragment>
-    
-      <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#517e33"}/>
-     
+		{earlyBurg}     
       </React.Fragment>
       );
     }
@@ -222,16 +247,14 @@ componentDidMount() {
       return (
         <React.Fragment>
         
-        <Expo.MapView.Marker coordinate = {{latitude: 39.831058, longitude: -77.230580}} title = {"David Wills House"} description = {"Lincoln made final adjustments to the Gettysburg Address here"} pinColor = {"#ed7d31"}/>
-        <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#7200ff"}/>
-        <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} pinColor = {"#00ffff"} />
-        <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#517e33"}/>
+        {allStops}
         
         </React.Fragment>
       
-      );
-    }
-
+      ); 
+	  
+	 }
+  
 
   }
 
