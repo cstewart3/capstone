@@ -3,9 +3,14 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
+var sharedProps = {
+  apiKey:"C1646D9F-52DC-41DF-A466-855D392D479D",
+}
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+    sharedProps : sharedProps
   };
 
   render() {

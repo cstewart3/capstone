@@ -11,7 +11,7 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      pickerSelection: '',
+      pickerSelection: 'All Stops',
       pickerDisplayed: false,
       modalVisible: true,
     }
@@ -128,10 +128,10 @@ componentDidMount() {
               right: 20,
               alignItems: 'center',
               position: 'absolute' }}>
-              <Text style={{fontWeight: "bold"}}>Filters</Text>
+              <Text style={{fontWeight: "bold", fontSize: 25}}>Filters</Text>
               { pickerValues.map((value, index) => {
                 return <TouchableHighlight key={index} onPress={() => this.setPickerValue(value.value)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                    <Text style={{color: '#5a5f66'}}>{ value.title }</Text>
+                    <Text style={{color: '#5a5f66', fontSize: 20}}>{ value.title }</Text>
                   </TouchableHighlight>
               })}
 
