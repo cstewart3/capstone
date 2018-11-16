@@ -2,10 +2,10 @@
     { 
         "_id" : "5ba82eb23aeb5659612c884d", 
         "siteName" : "site1", 
-        "category" : "Lincoln Trail",
+        "category" : "Lincoln's Visit",
         "desc" : "This is a description.", 
-        "lat" : 123453, 
-        "long" : 1234523, 
+        "lat" : 39.831058, 
+        "longit" : -77.230580, 
         "images": [
             { 
                 "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
@@ -14,11 +14,11 @@
         "__v" : 0},
     { 
         "_id" :"5ba82f043aeb5659612c884e", 
-        "siteName" : "site2", 
-        "category" : "Lincoln Trail", 
-        "desc" : "O Captain, My Captain", 
-        "lat" : 1223453, 
-        "long" : 2335647, 
+        "siteName" : "Lincoln Square", 
+        "category" : "Lincoln's Visit", 
+        "desc" : "The Circle of Gettysburg", 
+        "lat" : 39.830947, 
+        "longit" : -77.231133, 
         "images": [], 
         "__v" : 0 },
 { 
