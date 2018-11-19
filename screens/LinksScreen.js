@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight } from 'react-native';
 import Expo from 'expo';
 
-const data = require("..\\assets\\data_points\\fake.json");
+const data = require("..//assets//data_points//fake.json");
  
 	var lincolnsVisit = [];
 	var citandBattle = []; 
@@ -181,7 +181,7 @@ componentDidMount() {
   }
   
   renderStopArrays(){
-	  for(let i = 0; i <= data.length; i++){
+	  for(let i = 0; i <= 2; i++){
 		 if(data[i].category == "Lincoln's Visit"){
 			lincolnsVisit.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
 			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
