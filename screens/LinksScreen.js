@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight, Image} from 'react-native';
 import Expo from 'expo';
 
-const data = require("..\\assets\\data_points\\fake.json");
+const data = require("../assets/data_points/fake.json");
  
 	var lincolnsVisit = [];
 	var citandBattle = []; 
@@ -19,11 +19,17 @@ export default class App extends React.Component {
       pickerSelection: '',
       pickerDisplayed: false,
       modalVisible: true,
+      locationVisible: false,
+      curMarker: 0
     }
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  setLocationModalVisible(visible) {
+    this.setState({locationVisible: visible})
   }
 
   setPickerValue(newValue) {
@@ -148,6 +154,36 @@ componentDidMount() {
             </View>
           </Modal>
 
+       <View>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.locationVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style ={{flex: 1, alignItems: 'stretch'}}>
+        <TouchableHighlight onPress={() => this.setLocationModalVisible(!this.state.locationVisible)} style={{ paddingTop: 4, paddingBottom: 4 }}>
+                <Text style={{ color: '#999', fontSize: 30, paddingLeft: 5, paddingTop: 15, fontWeight: 'bold'}}>x</Text>
+          </TouchableHighlight>
+            {this.getImages(this.state.curMarker)}
+            {/* <Image source={require('../assets/images/' + data[this.state.curMarker].images.image1.fn)} style={{width:40, height:20}} /> */}
+            {/* <Text style={styles.getStartedText}>{data[this.state.curMarker].images.image1.fn}</Text> */}
+            <Text style={styles.siteText}>{data[this.state.curMarker].siteName}</Text>
+            <Text style={styles.descText}>{data[this.state.curMarker].desc}</Text>
+
+
+            {/* <TouchableHighlight
+              style = {styles.getStartedButton}
+              onPress={() => {
+                this.setLocationModalVisible(!this.state.locationVisible);
+              }}>
+              <Text style={styles.buttonText}>Get Started!</Text>
+            </TouchableHighlight> */}
+        </View>
+      </Modal>
+      </View>
+
       <Expo.MapView style = {{flex: 1}} provider = {Expo.MapView.PROVIDER_GOOGLE}
       //<Expo.MapView style = {{flex: 1}}
       initialRegion = {{
@@ -159,6 +195,7 @@ componentDidMount() {
         longitudeDelta: 0.0421,
 
       }}>
+      {/* {this.markerModal(-1)} */}
       {this._maybeRenderDevelopmentModeWarning()}
       {/* User's Location always shown */}
       
@@ -181,25 +218,25 @@ componentDidMount() {
   }
   
   renderStopArrays(){
-	  for(let i = 0; i <= data.length; i++){
+	  for(let i = 0; i < data.length; i++){
 		 if(data[i].category == "Lincoln's Visit"){
-			lincolnsVisit.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			lincolnsVisit.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#ed7d31"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#ed7d31"}/>)
 		 }
 		 
 		 else if(data[i].category == "Citizens and the Battle"){
-			citandBattle.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			citandBattle.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
 
 		 }
 		 else if(data[i].category == "Gettysburg's Black History"){
-			burgBlackHistory.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			burgBlackHistory.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
 
 		 }
 		 else if(data[i].category == "Early Gettysburg"){
-			earlyBurg.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			earlyBurg.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
 
 		 }
 	 }
@@ -215,7 +252,7 @@ componentDidMount() {
 	if (this.state.pickerSelection == "Lincoln's Visit") {
       return (
       <React.Fragment>
-		{lincolnsVisit}
+		    {lincolnsVisit}
       </React.Fragment>
       );
     }
@@ -253,9 +290,23 @@ componentDidMount() {
       
       ); 
 	  
-	 }
+   }
   
 
+  }
+
+  getImages(index) {
+    im1 = '../assets/images/';
+    im1 = im1.concat(data[index].images.image1.fn.toString())
+   return (
+      <Image source={require('../assets/images/David_Wills.jpg')} style={{paddingTop: 5, width:200, height:200}} />
+
+   );
+ }
+
+  markerClick(index) {
+    this.state.curMarker = index;
+    this.setLocationModalVisible();
   }
 
 }
@@ -274,6 +325,20 @@ const styles = StyleSheet.create({
     color: '#7f7f7f',
     justifyContent: 'center'
 
+  },
+  siteText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    backgroundColor: '#7f7f7f',
+    color: '#fff',
+    alignItems: 'center',
+    padding: 5
+  },
+  descText: {
+    fontSize: 20,
+    color: '#7f7f7f',
+    alignItems: 'center',
+    padding: 10
   },
   getStartedButton: {
     borderWidth: 3,
