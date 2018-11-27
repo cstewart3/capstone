@@ -1,7 +1,13 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight, Image} from 'react-native';
+import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight, Image, Platform, TouchableOpacity} from 'react-native';
 import Expo from 'expo';
+import MapView, { Marker, AnimatedRegion, Polyline, MarkerAnimated } from "react-native-maps";
+import haversine from "haversine";
 
+const LATITUDE = 29.95539;
+const LONGITUDE = 78.07513;
+const LATITUDE_DELTA = 0.009;
+const LONGITUDE_DELTA = 0.009;
 const data = require("../assets/data_points/fake.json");
  
 	var lincolnsVisit = [];
@@ -16,6 +22,15 @@ export default class App extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      routeCoordinates: [],
+      distanceTravelled: 0,
+      prevLatLng: {},
+      coordinate: new AnimatedRegion ({
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+      }),
       pickerSelection: '',
       pickerDisplayed: false,
       modalVisible: true,
@@ -65,7 +80,58 @@ export default class App extends React.Component {
 
 componentDidMount() {
   this._getLocationAsync(); // call method as soon as component mounts
+  const { coordinate } = this.state;
+  this.watchID = navigator.geolocation.watchPosition(
+    position => {
+      const { coordinate, routeCoordinates, distanceTravelled } = this.state;
+      const { latitude, longitude } = position.coords;
+
+      const newCoordinate = {
+        latitude,
+        longitude
+      };
+
+      if (Platform.OS === 'android') {
+        if (this.marker) {
+          this.marker._component.animateMarkerToCoordinate(
+            newCoordinate,
+            500 
+          
+          );
+        }
+      } else {
+        coordinate.timing(newCoordinate).start();
+      }
+
+      this.setState({
+        latitude,
+        longitude,
+        routeCoordinates: routeCoordinates.concat([newCoordinate]),
+        distanceTravelled:
+          distanceTravelled + this.calcDistance(newCoordinate),
+        prevLatLng: newCoordinate
+      });
+    },
+    error => console.log(error),
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+  );
 }
+
+componentWillUnmount() {
+  navigator.geolocation.clearWatch(this.watchID);
+}
+
+calcDistance = newLatLng => {
+  const { prevLatLng } = this.state;
+  return haversine(prevLatLng, newLatLng) || 0;
+};
+
+getMapRegion = () => ({
+  latitude: this.state.latitude,
+  longitude: this.state.longitude,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+});
 
   render() {
 
@@ -186,33 +252,48 @@ componentDidMount() {
 
       <Expo.MapView style = {{flex: 1}} provider = {Expo.MapView.PROVIDER_GOOGLE}
       //<Expo.MapView style = {{flex: 1}}
-      initialRegion = {{
-        latitude: this.state.location.coords.latitude,
-        longitude: this.state.location.coords.longitude,
-        //latitude: 39.821205,
-        //longitude: -77.232254,
-        latitudeDelta: 0.0022,
-        longitudeDelta: 0.0421,
+      // initialRegion = {{
+      //   latitude: this.state.location.coords.latitude,
+      //   longitude: this.state.location.coords.longitude,
+      //   //latitude: 39.821205,
+      //   //longitude: -77.232254,
+      //   latitudeDelta: 0.0022,
+      //   longitudeDelta: 0.0421,
 
-      }}>
+      // }}
+      showUserLocation
+      followUserLocation
+      loadingEnabled
+      region={this.getMapRegion()}
+      >
       {/* {this.markerModal(-1)} */}
       {this._maybeRenderDevelopmentModeWarning()}
       {/* User's Location always shown */}
+      {/* <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} /> */}
+      <Marker.Animated
+        ref={marker => {
+          this.marker = marker;
+        }}
+        coordinate={this.state.coordinate} >
+        <View style = {styles.marker}>  </View> 
+        </Marker.Animated>
       
-      
-          <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} >
+          {/* <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} >
           <View style = {styles.radius}> 
         <View style = {styles.marker}> 
         </View>
       </View>
-      </Expo.MapView.Marker>
-      
-      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} /> */}
-      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#ede02d"}/> */}
-      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#1fddf2"}/> */}
-      
-
+      </Expo.MapView.Marker> */}
       </Expo.MapView>
+      {/* code to show how far a person has traveled
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={[styles.bubble, styles.button]}>
+          <Text style={styles.bottomBarContent}>
+            {parseFloat(this.state.distanceTravelled).toFixed(2)} km
+          </Text>
+        </TouchableOpacity>
+      </View> 
+      */}
     </React.Fragment>
     );
   }
@@ -384,4 +465,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#34495e',
   },
+  bubble: {
+    flex: 1,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20
+  },
+  latlng: {
+    width: 200,
+    alignItems: "stretch"
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: "center",
+    marginHorizontal: 10
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    marginVertical: 20,
+    backgroundColor: "transparent"
+  }
 });
