@@ -1,8 +1,14 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight } from 'react-native';
+import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight, Image, Platform, TouchableOpacity} from 'react-native';
 import Expo from 'expo';
+import MapView, { Marker, AnimatedRegion, Polyline, MarkerAnimated } from "react-native-maps";
+import haversine from "haversine";
 
-const data = require("..//assets//data_points//fake.json");
+const LATITUDE = 29.95539;
+const LONGITUDE = 78.07513;
+const LATITUDE_DELTA = 0.009;
+const LONGITUDE_DELTA = 0.009;
+const data = require("../assets/data_points/fake.json");
  
 	var lincolnsVisit = [];
 	var citandBattle = []; 
@@ -16,14 +22,29 @@ export default class App extends React.Component {
   constructor(props) {
     super(props); 
     this.state = {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      routeCoordinates: [],
+      distanceTravelled: 0,
+      prevLatLng: {},
+      coordinate: new AnimatedRegion ({
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+      }),
       pickerSelection: '',
       pickerDisplayed: false,
       modalVisible: true,
+      locationVisible: false,
+      curMarker: 0
     }
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  setLocationModalVisible(visible) {
+    this.setState({locationVisible: visible})
   }
 
   setPickerValue(newValue) {
@@ -59,7 +80,58 @@ export default class App extends React.Component {
 
 componentDidMount() {
   this._getLocationAsync(); // call method as soon as component mounts
+  const { coordinate } = this.state;
+  this.watchID = navigator.geolocation.watchPosition(
+    position => {
+      const { coordinate, routeCoordinates, distanceTravelled } = this.state;
+      const { latitude, longitude } = position.coords;
+
+      const newCoordinate = {
+        latitude,
+        longitude
+      };
+
+      if (Platform.OS === 'android') {
+        if (this.marker) {
+          this.marker._component.animateMarkerToCoordinate(
+            newCoordinate,
+            500 
+          
+          );
+        }
+      } else {
+        coordinate.timing(newCoordinate).start();
+      }
+
+      this.setState({
+        latitude,
+        longitude,
+        routeCoordinates: routeCoordinates.concat([newCoordinate]),
+        distanceTravelled:
+          distanceTravelled + this.calcDistance(newCoordinate),
+        prevLatLng: newCoordinate
+      });
+    },
+    error => console.log(error),
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+  );
 }
+
+componentWillUnmount() {
+  navigator.geolocation.clearWatch(this.watchID);
+}
+
+calcDistance = newLatLng => {
+  const { prevLatLng } = this.state;
+  return haversine(prevLatLng, newLatLng) || 0;
+};
+
+getMapRegion = () => ({
+  latitude: this.state.latitude,
+  longitude: this.state.longitude,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+});
 
   render() {
 
@@ -148,58 +220,104 @@ componentDidMount() {
             </View>
           </Modal>
 
+       <View>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.locationVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+        }}>
+        <View style ={{flex: 1, alignItems: 'stretch'}}>
+        <TouchableHighlight onPress={() => this.setLocationModalVisible(!this.state.locationVisible)} style={{ paddingTop: 4, paddingBottom: 4 }}>
+                <Text style={{ color: '#999', fontSize: 30, paddingLeft: 5, paddingTop: 15, fontWeight: 'bold'}}>x</Text>
+          </TouchableHighlight>
+            {this.getImages(this.state.curMarker)}
+            {/* <Image source={require('../assets/images/' + data[this.state.curMarker].images.image1.fn)} style={{width:40, height:20}} /> */}
+            {/* <Text style={styles.getStartedText}>{data[this.state.curMarker].images.image1.fn}</Text> */}
+            <Text style={styles.siteText}>{data[this.state.curMarker].siteName}</Text>
+            <Text style={styles.descText}>{data[this.state.curMarker].desc}</Text>
+
+
+            {/* <TouchableHighlight
+              style = {styles.getStartedButton}
+              onPress={() => {
+                this.setLocationModalVisible(!this.state.locationVisible);
+              }}>
+              <Text style={styles.buttonText}>Get Started!</Text>
+            </TouchableHighlight> */}
+        </View>
+      </Modal>
+      </View>
+
       <Expo.MapView style = {{flex: 1}} provider = {Expo.MapView.PROVIDER_GOOGLE}
       //<Expo.MapView style = {{flex: 1}}
-      initialRegion = {{
-        latitude: this.state.location.coords.latitude,
-        longitude: this.state.location.coords.longitude,
-        //latitude: 39.821205,
-        //longitude: -77.232254,
-        latitudeDelta: 0.0022,
-        longitudeDelta: 0.0421,
+      // initialRegion = {{
+      //   latitude: this.state.location.coords.latitude,
+      //   longitude: this.state.location.coords.longitude,
+      //   //latitude: 39.821205,
+      //   //longitude: -77.232254,
+      //   latitudeDelta: 0.0022,
+      //   longitudeDelta: 0.0421,
 
-      }}>
+      // }}
+      showUserLocation
+      followUserLocation
+      loadingEnabled
+      region={this.getMapRegion()}
+      >
+      {/* {this.markerModal(-1)} */}
       {this._maybeRenderDevelopmentModeWarning()}
       {/* User's Location always shown */}
+      {/* <Polyline coordinates={this.state.routeCoordinates} strokeWidth={5} /> */}
+      <Marker.Animated
+        ref={marker => {
+          this.marker = marker;
+        }}
+        coordinate={this.state.coordinate} >
+        <View style = {styles.marker}>  </View> 
+        </Marker.Animated>
       
-      
-          <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} >
+          {/* <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} >
           <View style = {styles.radius}> 
         <View style = {styles.marker}> 
         </View>
       </View>
-      </Expo.MapView.Marker>
-      
-      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.821205, longitude: -77.232254}} title = {"Scary Place"} /> */}
-      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.830947, longitude: -77.231133}} title = {"Lincoln Square"} description = {"The Circle of Gettysburg"} pinColor = {"#ede02d"}/> */}
-      {/* <Expo.MapView.Marker coordinate = {{latitude: 39.832010, longitude: -77.231280}} title = {"Lincoln Diner"} description = {"Questionable food"} pinColor = {"#1fddf2"}/> */}
-      
-
+      </Expo.MapView.Marker> */}
       </Expo.MapView>
+      {/* code to show how far a person has traveled
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={[styles.bubble, styles.button]}>
+          <Text style={styles.bottomBarContent}>
+            {parseFloat(this.state.distanceTravelled).toFixed(2)} km
+          </Text>
+        </TouchableOpacity>
+      </View> 
+      */}
     </React.Fragment>
     );
   }
   
   renderStopArrays(){
-	  for(let i = 0; i <= 2; i++){
+	  for(let i = 0; i < data.length; i++){
 		 if(data[i].category == "Lincoln's Visit"){
-			lincolnsVisit.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			lincolnsVisit.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#ed7d31"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#ed7d31"}/>)
 		 }
 		 
 		 else if(data[i].category == "Citizens and the Battle"){
-			citandBattle.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			citandBattle.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
 
 		 }
 		 else if(data[i].category == "Gettysburg's Black History"){
-			burgBlackHistory.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			burgBlackHistory.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
 
 		 }
 		 else if(data[i].category == "Early Gettysburg"){
-			earlyBurg.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"##7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = {data[i].desc} pinColor = {"#ed7d31"}/>)
+			earlyBurg.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
 
 		 }
 	 }
@@ -215,7 +333,7 @@ componentDidMount() {
 	if (this.state.pickerSelection == "Lincoln's Visit") {
       return (
       <React.Fragment>
-		{lincolnsVisit}
+		    {lincolnsVisit}
       </React.Fragment>
       );
     }
@@ -253,9 +371,23 @@ componentDidMount() {
       
       ); 
 	  
-	 }
+   }
   
 
+  }
+
+  getImages(index) {
+    im1 = '../assets/images/';
+    im1 = im1.concat(data[index].images.image1.fn.toString())
+   return (
+      <Image source={require('../assets/images/David_Wills.jpg')} style={{paddingTop: 5, width:200, height:200}} />
+
+   );
+ }
+
+  markerClick(index) {
+    this.state.curMarker = index;
+    this.setLocationModalVisible();
   }
 
 }
@@ -274,6 +406,20 @@ const styles = StyleSheet.create({
     color: '#7f7f7f',
     justifyContent: 'center'
 
+  },
+  siteText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    backgroundColor: '#7f7f7f',
+    color: '#fff',
+    alignItems: 'center',
+    padding: 5
+  },
+  descText: {
+    fontSize: 20,
+    color: '#7f7f7f',
+    alignItems: 'center',
+    padding: 10
   },
   getStartedButton: {
     borderWidth: 3,
@@ -319,4 +465,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#34495e',
   },
+  bubble: {
+    flex: 1,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20
+  },
+  latlng: {
+    width: 200,
+    alignItems: "stretch"
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: "center",
+    marginHorizontal: 10
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    marginVertical: 20,
+    backgroundColor: "transparent"
+  }
 });
