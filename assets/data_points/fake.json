@@ -24,7 +24,7 @@
     { 
         "_id" : "5ba82fde3aeb5659612c884f", 
         "siteName" : "Lincoln Cemetery", 
-        "category" : "Gettysburg's Black History", 
+        "category" : "Early Gettysburg", 
         "desc" : "Purchased in 1867 by a group of prominent black citizens, Lincoln Cemetery is the largest black cemetery in Adams County. It was originally called “Good Will” Cemetery, and expanded over the years as adjoining tracts were purchased and new lots were sold off. Although only about 215 graves in the cemetery are marked with headstones, records indicate that there are at least 450 individuals buried there, including many veterans of the Civil War and later wars. The cemetery is closed to the public, but can be visited by appointment.", 
         "lat" : 39.826158, 
         "longit" : -77.235588, 
@@ -42,7 +42,7 @@
     { 
         "_id" : "5ba831ce3aeb5659612c8851", 
         "siteName" : "Janitor's Home: Pennsylvania College", 
-        "category" : "Gettysburg's Black History", 
+        "category" : "Citizens and the Battle", 
         "desc" : "Jack Hopkins was born in Maryland and came to Gettysburg around 1842. In 1847, he was hired by Pennsylvania College (now Gettysburg College) as the janitor. Known to many as “Jack the Janitor,” Hopkins lived with his family just north of Pennsylvania Hall in a two-story home that no longer stands. During the Battle of Gettysburg, his family was forced to flee in fear of being captured and taken south by the invading Confederate Army. When the family returned days later, they found their home ransacked and most of their possessions destroyed. Jack’s son would later join the United States Colored Troops and serve his country with honor.", 
         "lat" : 39.835139, 
         "longit" : -77.234494, 
