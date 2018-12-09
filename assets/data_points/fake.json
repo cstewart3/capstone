@@ -1,138 +1,50 @@
 [
     { 
         "_id" : "5ba82eb23aeb5659612c884d", 
-        "siteName" : "site1", 
+        "siteName" : "David Wills House", 
         "category" : "Lincoln's Visit",
-        "desc" : "This is a description.", 
-        "lat" : 39.831058, 
-        "longit" : -77.230580, 
-        "images": [
+        "desc" : "President Abraham Lincoln arrived in Gettysburg on the evening of November 18, 1863 and stayed at the home of David Wills (1831-1894), a prominent local attorney. It was here where he made final adjustments to the Gettysburg Address and dined with other dignitaries and local officials. Lincoln's bedroom, a longtime tourist attraction in Gettysburg, is on the second floor facing the square of Gettysburg. Today, the Wills House is a museum operated by the Gettysburg National Military Park. Tap HERE (https://www.nps.gov/gett/planyourvisit/david-wills-house.htm) to learn more.", 
+        "lat" : 39.830739, 
+        "longit" : -77.230666, 
+        "images": 
             { 
-                "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
-                "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}, 
-                "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}], 
+                "image1": {"fn": "David_Wills.jpg", "caption1": "An early ambrotype of David Wills, Adams County Historical Society."}, 
+                "image2": {"fn": "truck.jpg", "caption2": "This is caption 2 for image2"}, 
+                "image3": {"fn": "robot-prod.png", "caption3": "This is caption 3 for image3"}}, 
         "__v" : 0},
     { 
         "_id" :"5ba82f043aeb5659612c884e", 
-        "siteName" : "Lincoln Square", 
-        "category" : "Lincoln's Visit", 
-        "desc" : "The Circle of Gettysburg", 
-        "lat" : 39.830947, 
-        "longit" : -77.231133, 
+        "siteName" : "Owen Robinson Home", 
+        "category" : "Gettysburg's Black History", 
+        "desc" : "Owen Robinson, born a slave in Maryland, lived in a house at this site from 1840 until his death in 1900. Robinson also operated an ice cream shop and oyster saloon closer to the square of Gettysburg on Chambersburg Street. Before the battle, Owen and his famliy left town in fear of being captured by the Confederate Army. The house at this site stood until 1988.", 
+        "lat" : 39.82843, 
+        "longit" : -77.234067, 
         "images": [], 
         "__v" : 0 },
-{ 
-    "_id" : "5ba82fde3aeb5659612c884f", 
-    "siteName" : "site3", 
-    "category" : "Fighting in the Streets", 
-    "desc" : "Our fearful trip is done.", 
-    "lat" : 156472, 
-    "long" : 245743, 
-    "images": [
-        { 
-            "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
-            "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}], 
-    "__v" : 0 },
-{ 
-    "_id" : "5ba831583aeb5659612c8850", 
-    "siteName" : "site4", 
-    "category" : "Early Town History", 
-    "desc" : "The ship has weathered every rack", 
-    "lat" : 1457892, 
-    "long" : 23223124, 
-    "images": [
-        { "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}}], 
-    "__v" : 0 },
-{ 
-    "_id" : "5ba831ce3aeb5659612c8851", 
-    "siteName" : "site5", 
-    "category" : "Early Town History", 
-    "desc" : "This is another description.", 
-    "lat" : 1654562, 
-    "long" : -124323, 
-    "images": [
-        { 
-            "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
-            "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}, 
-            "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}], 
-    "__v" : 0 },
-{ 
-    "_id" : "5ba832be3aeb5659612c8852", 
-    "siteName" : "site6", 
-    "category" : "Lincoln Trail", 
-    "desc" : "The prize we sought is won.", 
-    "lat" : 109692312, 
-    "long" : 12468923, 
-    "images": [
-        { 
-            "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
-            "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}, 
-            "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}],
-     "__v" : 0 },
-{ 
-    "_id" : "5ba832f03aeb5659612c8853", 
-    "siteName" : "site7", 
-    "category" : "Lincoln Trail", 
-    "desc" : "The port is near", 
-    "lat" : 1235122, 
-    "long" : 23096394, 
-    "images": [
-        { 
-            "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
-            "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}, 
-            "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}],
-     "__v" : 0 },
-{ 
-    "_id" : "5ba833063aeb5659612c8854", 
-    "siteName" : "site8", 
-    "category" : "Fighting in the Streets", 
-    "desc" : "The bells I hear.", 
-    "lat" : -134622, 
-    "long" : 2462463.24, 
-    "images": [], 
-    "__v" : 0 },
-{ 
-    "_id" : "5ba834293aeb5659612c8855", 
-    "siteName" : "site9", 
-    "category" : "Fighting in the Streets", 
-    "desc" : "The people all exulting.", 
-    "lat" : 12250124.66, 
-    "long" : 223522.563, 
-    "images": [
-        {
-            "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}, 
-            "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}],
-    "__v" : 0 },
-{ 
-    "_id" : "5ba83d1154d4d85ce3739db8", 
-    "siteName" : "site10", 
-    "category" : "Lincoln Trail", 
-    "desc" : "While follow eyes the steady keel, the vessel grim and daring.", 
-    "lat" : 1235122, 
-    "long" : 22353.73, 
-    "images": [
-        { 
-            "image1": {"fn": "image1", "caption1": "This is caption 1 for image1"}, 
-            "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}, 
-            "image3": {"fn": "image3", "caption3": "This is caption 3 for image3"}}],
-    "__v" : 0 },
-{ 
-    "_id" : "5ba83d4f54d4d85ce3739db9", 
-    "siteName" : "site11", 
-    "category" : "Fighting in the Streets", 
-    "desc" : "But O heart, heart, heart!", 
-    "lat" : 122352.55, 
-    "long" : 23235235.6, 
-    "images": [], 
-    "__v" : 0 },
-{ 
-    "_id" : "5ba83dc7ff096c5ceee02fc5", 
-    "siteName" : "site12", 
-    "category" : "Early Town History", 
-    "desc" : "O the bleeding drops of red.", 
-    "lat" : 11235432, 
-    "long" : 9078023, 
-    "images": [
-        {
-            "image2": {"fn": "image2", "caption2": "This is caption 2 for image2"}}],
-     "__v" : 0 }]
+    { 
+        "_id" : "5ba82fde3aeb5659612c884f", 
+        "siteName" : "Lincoln Cemetery", 
+        "category" : "Early Gettysburg", 
+        "desc" : "Purchased in 1867 by a group of prominent black citizens, Lincoln Cemetery is the largest black cemetery in Adams County. It was originally called “Good Will” Cemetery, and expanded over the years as adjoining tracts were purchased and new lots were sold off. Although only about 215 graves in the cemetery are marked with headstones, records indicate that there are at least 450 individuals buried there, including many veterans of the Civil War and later wars. The cemetery is closed to the public, but can be visited by appointment.", 
+        "lat" : 39.826158, 
+        "longit" : -77.235588, 
+        "images": [], 
+        "__v" : 0 },
+    { 
+        "_id" : "5ba831583aeb5659612c8850", 
+        "siteName" : "Basil Biggs Home", 
+        "category" : "Gettysburg's Black History", 
+        "desc" : "This home was purchased by well-known black citizen Basil Biggs in 1892. Biggs was a veterinarian, and his son William Biggs continued the business after his father’s death in 1906. William was instrumental in the fight to integrate Gettysburg's public schools in the 1920s. In an attempt to intimidate him, the KKK placed a cross in front of this home in 1924. A friend of Mr. Biggs told the local newspaper that if the cross had been lit, “the person who applied the match would have been kept in the neighborhood.” It was this courage in the face of bigotry that ultimately led to the integration of Gettysburg’s schools not long after.", 
+        "lat" : 39.828638, 
+        "longit" : -77.233454, 
+        "images": [], 
+        "__v" : 0 },
+    { 
+        "_id" : "5ba831ce3aeb5659612c8851", 
+        "siteName" : "Janitor's Home: Pennsylvania College", 
+        "category" : "Citizens and the Battle", 
+        "desc" : "Jack Hopkins was born in Maryland and came to Gettysburg around 1842. In 1847, he was hired by Pennsylvania College (now Gettysburg College) as the janitor. Known to many as “Jack the Janitor,” Hopkins lived with his family just north of Pennsylvania Hall in a two-story home that no longer stands. During the Battle of Gettysburg, his family was forced to flee in fear of being captured and taken south by the invading Confederate Army. When the family returned days later, they found their home ransacked and most of their possessions destroyed. Jack’s son would later join the United States Colored Troops and serve his country with honor.", 
+        "lat" : 39.835139, 
+        "longit" : -77.234494, 
+        "images": [], 
+        "__v" : 0 }]
