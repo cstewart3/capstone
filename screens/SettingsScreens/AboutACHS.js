@@ -15,11 +15,12 @@ class AboutACHS extends Component {
     render() {
         return (
 
-            <ScrollView>
+            <ScrollView style={{backgroundColor: 'white'}}>
+                <View style={{borderBottomColor: '#85251a',
+                    borderBottomWidth: 5,}}>
                 <Text style = {{
                     fontWeight: 'bold', 
                     fontSize: 25, 
-                    fontFamily: 'Times New Roman',
                     textAlign: 'center',
                     color: 'white', 
                     backgroundColor: '#A62E20',
@@ -28,12 +29,11 @@ class AboutACHS extends Component {
                     
                     }}>
                     Who we are
-                </Text>
+                </Text></View>
                 <Text style = {{
                   fontSize: 20,
                   paddingBottom: 20,
                   paddingTop: 10,
-                  fontFamily: 'Times New Roman',
                   textAlign: 'center',
                 }}>
 
@@ -42,11 +42,11 @@ class AboutACHS extends Component {
                 preserving the rich cultural heritage of Adams County, Pennsylvania.   
                 </Text>
 
-
+<View style={{borderBottomColor: '#85251a',
+                    borderBottomWidth: 5,}}>
                 <Text style = {{
                     fontWeight: 'bold', 
                     fontSize: 25, 
-                    fontFamily: 'Times New Roman',
                     textAlign: 'center',
                     color: 'white', 
                     backgroundColor: '#A62E20',
@@ -54,12 +54,11 @@ class AboutACHS extends Component {
                     paddingTop: 10,
                     }}>
                     Mission
-                </Text>
+                </Text></View>
                 <Text style = {{
                   fontSize: 20,
                   paddingBottom: 20,
                   paddingTop: 10,
-                  fontFamily: 'Times New Roman',
                   textAlign: 'center',
                 }}>
 
@@ -69,11 +68,11 @@ class AboutACHS extends Component {
                 history of the community."   
                
                 </Text>
-
+                <View style={{borderBottomColor: '#85251a',
+                    borderBottomWidth: 5,}}>
                 <Text style = {{
                     fontWeight: 'bold', 
                     fontSize: 25, 
-                    fontFamily: 'Times New Roman',
                     textAlign: 'center',
                     color: 'white', 
                     backgroundColor: '#A62E20',
@@ -81,12 +80,11 @@ class AboutACHS extends Component {
                     paddingTop: 10,
                     }}>
                     What We Offer
-                </Text>
+                </Text></View>
                 <Text style = {{
                   fontSize: 20,
                   paddingBottom: 20,
                   paddingTop: 10,
-                  fontFamily: 'Times New Roman',
                   textAlign: 'center',
                 }}>
 
@@ -96,11 +94,11 @@ class AboutACHS extends Component {
                 Theological Seminary in Gettysburg.    
                
                 </Text>
-
+                <View style={{borderBottomColor: '#85251a',
+                    borderBottomWidth: 5,}}>
                 <Text style = {{
                     fontWeight: 'bold', 
                     fontSize: 25, 
-                    fontFamily: 'Times New Roman',
                     textAlign: 'center',
                     color: 'white', 
                     backgroundColor: '#A62E20',
@@ -108,13 +106,12 @@ class AboutACHS extends Component {
                     paddingTop: 10,
                     }}>
                     To Learn More:
-                </Text>
+                </Text></View>
 
                 <Text style = {{
                   fontSize: 20,
                   paddingBottom: 20,
                   paddingTop: 10,
-                  fontFamily: 'Times New Roman',
                   textAlign: 'center',
                 }}>
 

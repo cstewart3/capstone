@@ -1,8 +1,12 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight, Image, Platform, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Picker, Button, Modal, TouchableHighlight, Image, Platform, TouchableOpacity, ImageBackground} from 'react-native';
 import Expo from 'expo';
 import MapView, { Marker, AnimatedRegion, Polyline, MarkerAnimated } from "react-native-maps";
 import haversine from "haversine";
+import {TextButton, RaisedTextButton} from 'react-native-material-buttons';
+import Ripple from 'react-native-material-ripple'
+
+const resizeMode = 'center';
 
 const LATITUDE = 29.95539;
 const LONGITUDE = 78.07513;
@@ -16,9 +20,9 @@ const data = require("../assets/data_points/fake.json");
 	var earlyBurg = []; 
 	var allStops = [];
 export default class App extends React.Component {
-  static navigationOptions = {
-    title: 'Map View',
-  };
+  // static navigationOptions = {
+  //   title: '',
+  // };
   constructor(props) {
     super(props); 
     this.state = {
@@ -163,53 +167,64 @@ getMapRegion = () => ({
 
 
     if (!this.state.location) {
-      return (<View />)
+      return (<View/>)
     }
     return (
       <React.Fragment>
 
 
-        <View >
+        <View>
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {
             Alert.alert('Modal has been closed.');
-          }}>
-          <View style ={{alignItems: 'center'}}>
-            
-              <Text style={styles.getStartedText}>GettysburgAR</Text>
+          }}
+          style ={{alignItems: 'center', justifyContent: 'center'}}
+          >
+            <ImageBackground
+        style={{
+          backgroundColor: '#ccc',
+          flex: 1,
+          resizeMode,
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+        source={require('../assets/images/map.jpg')}>
+          <View style ={{alignItems: 'center', justifyContent: 'center'}}>
+                 
+         <View style ={{borderWidth: 3, borderColor: '#85251a', opacity: 0.8,  margin: 45, backgroundColor: 'rgba(166, 46, 32, 0.6)', justifyContent: 'center', backgroundColor: '#A62E20'}}><Text style={styles.getStartedText}>{'Gettysburg: A Walk   \n Through Time'}</Text></View>
 
-              <TouchableHighlight
-                style = {styles.getStartedButton}
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
-                <Text style={styles.buttonText}>Get Started!</Text>
-              </TouchableHighlight>
+              
+
+              <RaisedTextButton title='Get Started!' color='#2E3F47' titleColor='#fff' onPress={() => {this.setModalVisible(!this.state.modalVisible);}}></RaisedTextButton>
+
+
            
           </View>
+          </ImageBackground>
         </Modal>
 
       </View>
 
         <View style={{height: 0}} />
           
-          <Button onPress={() => this.togglePicker()} title={ "Map Filters" }/>
-           <Text style={{textAlignVertical: "center",textAlign: "center"}}> { this.state.pickerSelection }</Text>
+          <Button  onPress={() => this.togglePicker()} title={ "Map Filters" }/>
+           <Text style={{fontSize: 20, textAlignVertical: "center",textAlign: "center"}}> { this.state.pickerSelection }</Text>
           <Modal visible={this.state.pickerDisplayed} animationType={"slide"} transparent={true}>
-            <View style={{ margin: 20, padding: 20,
-              backgroundColor: '#efefef',
+            <View style={{ flex: 1, margin: 20, padding: 20,
+              backgroundColor: '#2E3F47',
               bottom: 20,
               left: 20,
               right: 20,
               alignItems: 'center',
               position: 'absolute' }}>
-              <Text style={{fontWeight: "bold"}}>Filters</Text>
               { pickerValues.map((value, index) => {
                 return <TouchableHighlight key={index} onPress={() => this.setPickerValue(value.value)} style={{ paddingTop: 4, paddingBottom: 4 }}>
-                    <Text style={{color: '#5a5f66'}}>{ value.title }</Text>
+                    <Text style={{color: '#fff', fontSize: 20}}>{ value.title }</Text>
                   </TouchableHighlight>
               })}
 
@@ -233,34 +248,16 @@ getMapRegion = () => ({
                 <Text style={{ color: '#999', fontSize: 30, paddingLeft: 5, paddingTop: 15, fontWeight: 'bold'}}>x</Text>
           </TouchableHighlight>
             {this.getImages(this.state.curMarker)}
-            {/* <Image source={require('../assets/images/' + data[this.state.curMarker].images.image1.fn)} style={{width:40, height:20}} /> */}
-            {/* <Text style={styles.getStartedText}>{data[this.state.curMarker].images.image1.fn}</Text> */}
             <Text style={styles.siteText}>{data[this.state.curMarker].siteName}</Text>
             <Text style={styles.descText}>{data[this.state.curMarker].desc}</Text>
 
 
-            {/* <TouchableHighlight
-              style = {styles.getStartedButton}
-              onPress={() => {
-                this.setLocationModalVisible(!this.state.locationVisible);
-              }}>
-              <Text style={styles.buttonText}>Get Started!</Text>
-            </TouchableHighlight> */}
         </View>
       </Modal>
       </View>
 
       <Expo.MapView style = {{flex: 1}} provider = {Expo.MapView.PROVIDER_GOOGLE}
-      //<Expo.MapView style = {{flex: 1}}
-      // initialRegion = {{
-      //   latitude: this.state.location.coords.latitude,
-      //   longitude: this.state.location.coords.longitude,
-      //   //latitude: 39.821205,
-      //   //longitude: -77.232254,
-      //   latitudeDelta: 0.0022,
-      //   longitudeDelta: 0.0421,
 
-      // }}
       showUserLocation
       followUserLocation
       loadingEnabled
@@ -275,25 +272,11 @@ getMapRegion = () => ({
           this.marker = marker;
         }}
         coordinate={this.state.coordinate} >
-        <View style = {styles.marker}>  </View> 
+        <View style = {styles.marker}></View> 
         </Marker.Animated>
       
-          {/* <Expo.MapView.Marker coordinate = {this.state.location.coords} title = {"You are here cool person"} >
-          <View style = {styles.radius}> 
-        <View style = {styles.marker}> 
-        </View>
-      </View>
-      </Expo.MapView.Marker> */}
+
       </Expo.MapView>
-      {/* code to show how far a person has traveled
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={[styles.bubble, styles.button]}>
-          <Text style={styles.bottomBarContent}>
-            {parseFloat(this.state.distanceTravelled).toFixed(2)} km
-          </Text>
-        </TouchableOpacity>
-      </View> 
-      */}
     </React.Fragment>
     );
   }
@@ -301,23 +284,23 @@ getMapRegion = () => ({
   renderStopArrays(){
 	  for(let i = 0; i < data.length; i++){
 		 if(data[i].category == "Lincoln's Visit"){
-			lincolnsVisit.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#ed7d31"}/>)
-			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#ed7d31"}/>)
+			lincolnsVisit.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#4285F4"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#4285F4"}/>)
 		 }
 		 
 		 else if(data[i].category == "Citizens and the Battle"){
-			citandBattle.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			citandBattle.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#DB4437"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#DB4437"}/>)
 
 		 }
 		 else if(data[i].category == "Gettysburg's Black History"){
-			burgBlackHistory.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			burgBlackHistory.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#E87722"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#E87722"}/>)
 
 		 }
 		 else if(data[i].category == "Early Gettysburg"){
-			earlyBurg.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
-			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} description = '' pinColor = {"#7200ff"}/>)
+			earlyBurg.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName}  pinColor = {"#0F9D58"}/>)
+			allStops.push(<Expo.MapView.Marker onPress={() => this.markerClick(i)} coordinate = {{latitude: data[i].lat, longitude: data[i].longit}} title = {data[i].siteName} pinColor = {"#0F9D58"}/>)
 
 		 }
 	 }
@@ -394,16 +377,17 @@ getMapRegion = () => ({
 
 const styles = StyleSheet.create({
   getStartedText: {
-    fontSize: 30,
+    fontSize: 27,
     fontWeight: 'bold',
-    color: '#e3256b',
-    lineHeight: 400,
-   
-  },
+    color: '#fff',
+    height: 100,
+    width: '90%',
+    padding: 10,
+    textAlign: 'center'
+},
   buttonText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#7f7f7f',
+    fontSize: 20,
+    color: '#fff',
     justifyContent: 'center'
 
   },
@@ -422,12 +406,11 @@ const styles = StyleSheet.create({
     padding: 10
   },
   getStartedButton: {
-    borderWidth: 3,
-    borderColor: '#00ffff',
     alignItems: 'center',
+    backgroundColor:'#2E3F47',
 
     padding: 10,
-    width: 175
+    width: 200
   },
   radius: {
     height: 50,
